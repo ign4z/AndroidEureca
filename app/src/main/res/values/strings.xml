@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">eureca</string>
+    <string name="entra">entra</string>
+    <string name="textview">TextView</string>
+    <string name="invia">invia dati</string>
+    <string name="catturaqrcode">cattura QRCode</string>
+    <string name="actvity2">qRCodeActivity</string>
+    <string name="avvia">avvia</string>
+</resources>

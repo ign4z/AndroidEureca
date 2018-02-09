@@ -6,4 +6,6 @@
     <string name="catturaqrcode">cattura QRCode</string>
     <string name="actvity2">qRCodeActivity</string>
     <string name="avvia">avvia</string>
+    <string name="running">Running</string>
+    <string name="conser">Contacting Web Server!</string>
 </resources>

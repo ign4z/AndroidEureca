@@ -9,8 +9,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="48dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
@@ -28,6 +30,7 @@
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="77dp"
+            android:onClick="inviaDati"
             android:text="@string/invia" />
 
         <Button

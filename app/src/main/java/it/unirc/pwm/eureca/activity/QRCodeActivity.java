@@ -1,23 +1,23 @@
 package it.unirc.pwm.eureca.activity;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import it.unirc.pwm.eureca.R;
+import it.unirc.pwm.eureca.model.Evento;
+import it.unirc.pwm.eureca.model.EventoImpl;
+import it.unirc.pwm.eureca.util.AsyncReq;
 import it.unirc.pwm.eureca.util.Costanti;
+import it.unirc.pwm.eureca.util.InternetConnection;
+import it.unirc.pwm.eureca.util.PermissionUtil;
 
-public class QRCodeActivity extends  Activity {
+public class QRCodeActivity extends JsonActivity {
 	public final static String TAG = "QRCodeActivity";
+	private int idEvento = 0;
 
 	private void dispatchTakePictureIntent() {
 		/*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -39,6 +39,7 @@ public class QRCodeActivity extends  Activity {
 					if (resultCode == Activity.RESULT_OK) {
 						String returnValue = data.getStringExtra(String.valueOf(Costanti.KEY_QR_CODE));
 						String nome = returnValue.split("@")[0];
+						idEvento =Integer.parseInt(returnValue.split("@")[1]);
 						TextView textView = (TextView) findViewById(R.id.textView);
 						textView.setText(nome);
 					}
@@ -47,40 +48,14 @@ public class QRCodeActivity extends  Activity {
 		}
 	}
 
-	private void showExplanation(String title, String message, final String permission,
-								 final int permissionRequestCode) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(QRCodeActivity.this);
-		builder.setTitle(title)
-				.setMessage(message)
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						requestPermission(permission, permissionRequestCode);
-					}
-				});
-		builder.create().show();
-	}
 
-	private void requestPermission(String permissionName, int permissionRequestCode) {
-		ActivityCompat.requestPermissions(QRCodeActivity.this,new String[]{permissionName}, permissionRequestCode);
-	}
 
 	//onclick
 	public void cattura(View view)
 	{//permesso a runtime
-		int permissionCheck = ContextCompat.checkSelfPermission(
-				QRCodeActivity.this, Manifest.permission.CAMERA);
-		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-			if (ActivityCompat.shouldShowRequestPermissionRationale(QRCodeActivity.this,
-					Manifest.permission.CAMERA)) {
-				showExplanation("Permission Needed", "Rationale", Manifest.permission.CAMERA, Costanti.MY_PERMISSIONS_REQUEST_CAMERA);
-			} else {
-				requestPermission(Manifest.permission.CAMERA, Costanti.MY_PERMISSIONS_REQUEST_CAMERA);
-			}
-		} else {
-			Toast.makeText(QRCodeActivity.this, "Permission (already) Granted!", Toast.LENGTH_SHORT).show();
+		if(PermissionUtil.checkPermissionCamera(this)){
 			dispatchTakePictureIntent();
 		}
-
 	}
 
 	@Override
@@ -114,5 +89,28 @@ public class QRCodeActivity extends  Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.qrcode_activity);
+	}
+
+
+
+	public void inviaDati(View view)
+	{
+		InternetConnection internetConnection=
+				new InternetConnection(Costanti.urlBase+Costanti.urlJson+"?id=1");
+		AsyncReq asyncReq=new AsyncReq(this, getString(R.string.running),
+				getString(R.string.conser), Costanti.urlBase+Costanti.urlJson+"?id=1");
+		asyncReq.execute(internetConnection);
+	}
+
+	/**
+	 * callback della richiesta asincrona json classe astratta
+	 * @param jsonString
+	 */
+	@Override
+	public void jsonResult(String jsonString) {
+
+		EventoImpl evnContract=new EventoImpl();
+		Evento e = evnContract.getEvento(jsonString);
+		System.out.println(e.getDescrizione());
 	}
 }

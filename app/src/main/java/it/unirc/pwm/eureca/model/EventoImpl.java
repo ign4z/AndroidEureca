@@ -16,7 +16,7 @@ public class EventoImpl implements EventoDao{
             ev.setIdEvento(Integer.parseInt(eventoJson.getString(EventoContract.EventoObject.idEvento)));
             ev.setNome(eventoJson.getString(EventoContract.EventoObject.nome));
             ev.setDescrizione(eventoJson.getString(EventoContract.EventoObject.descrizione));
-                //ev.setDataEvento(jsonObject.getString(EventoContract.EventoObject.descrizione));
+            ev.setLocandina(eventoJson.getString(EventoContract.EventoObject.locandina));
             ev.setLuogo(eventoJson.getString(EventoContract.EventoObject.luogo));
 
         } catch (JSONException e) {

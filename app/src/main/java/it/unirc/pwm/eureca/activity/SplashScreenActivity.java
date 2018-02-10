@@ -1,9 +1,9 @@
 package it.unirc.pwm.eureca.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -30,7 +30,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 b.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
     @Override
@@ -75,7 +74,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     public void secondaActivity(View view) {
-        Intent intent = new Intent(this, QRCodeActivity.class);
+        Intent intent = new Intent(this, QRCodeAbstractActivity.class);
         startActivity(intent);
     }
 

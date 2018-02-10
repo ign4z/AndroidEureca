@@ -18,14 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.QRCodeActivity">
+        <activity android:name=".activity.QRCodeAbstractActivity">
         </activity>
         <activity
             android:name=".activity.ScannerActivity">
         </activity>
-        <activity
-            android:name=".activity.EventoActivity">
+        <activity android:name=".activity.DettagliEventoActivity">
         </activity>
     </application>
 

@@ -8,4 +8,19 @@
     <string name="avvia">avvia</string>
     <string name="running">Running</string>
     <string name="conser">Contacting Web Server!</string>
+
+
+    <!-- text field    -->
+    <string name="nome">nome</string>
+    <string name="descrizione">descrizione</string>
+    <string name="data">data</string>
+    <string name="luogo">luogo</string>
+
+    <string name="partecipa">partecipa</string>
+    <string name="cognome">cognome</string>
+    <string name="telefono">telefono</string>
+    <string name="email">email</string>
+    <string name="ente">ente</string>
+    <string name="inviapartecipazione">invia partecipazione</string>
+
 </resources>

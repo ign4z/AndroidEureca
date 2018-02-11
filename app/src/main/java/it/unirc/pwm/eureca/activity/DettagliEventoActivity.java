@@ -7,6 +7,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -119,8 +123,14 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
 
     @Override
     public void jsonResult(String jsonString) {
-        Log.e(Tag, jsonString);
-        System.out.println(jsonString);
-        System.out.println("che mi ritorni?");
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            if ((Boolean) jsonObject.get("risultato")) {
+                Toast.makeText(this, "iscrizione ok", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        } catch (JSONException jex) {
+            jex.printStackTrace();
+        }
     }
 }

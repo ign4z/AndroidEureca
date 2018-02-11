@@ -1,6 +1,7 @@
 package it.unirc.pwm.eureca.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -21,18 +22,12 @@ import it.unirc.pwm.eureca.util.AsyncReqPost;
 import it.unirc.pwm.eureca.util.Costanti;
 import it.unirc.pwm.eureca.util.InternetConnection;
 import it.unirc.pwm.eureca.util.MyTextWatcher;
+import it.unirc.pwm.eureca.util.Varie;
 
 public class DettagliEventoActivity extends JsonAbstractActivity {
 
     private String Tag = "DettagliEventoActivity";
     private Evento evento;
-
-
-    private void salvaSuPreference() {
-    }
-
-    private void leggiDaPreference() {
-    }
 
     public void partecipa(View view) {
         LinearLayout linearInvisible = findViewById(R.id.linearInvisible);
@@ -44,14 +39,48 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
     }
 
     public void inviaPartecipazione(View view) {
-        try {
-            InternetConnection internetConnection = new InternetConnection(Costanti.URLBASE + Costanti.URLPARTECIPA);
-            AsyncReqPost asyncReq = new AsyncReqPost(this, getString(R.string.running), getString(R.string.conser), Costanti.URLBASE + Costanti.URLPARTECIPA, getPostParamiter(view));
-            asyncReq.execute(internetConnection);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (controllaCampi())
+            try {
+                InternetConnection internetConnection = new InternetConnection(Costanti.URLBASE + Costanti.URLPARTECIPA);
+                AsyncReqPost asyncReq = new AsyncReqPost(this, getString(R.string.running), getString(R.string.conser), Costanti.URLBASE + Costanti.URLPARTECIPA, getPostParamiter(view));
+                asyncReq.execute(internetConnection);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+    }
+
+    private boolean controllaCampi() {
+        if (TextUtils.isEmpty(((EditText) findViewById(R.id.nomeTF)).getText())) {
+            ((EditText) findViewById(R.id.nomeTF)).setError("First name is required!");
+            return false;
+        }
+        if (TextUtils.isEmpty(((EditText) findViewById(R.id.cognomeTF)).getText())) {
+            ((EditText) findViewById(R.id.cognomeTF)).setError("First name is required!");
+            return false;
+        }
+        if (TextUtils.isEmpty(((EditText) findViewById(R.id.emailTF)).getText())) {
+            ((EditText) findViewById(R.id.emailTF)).setError("First name is required!");
+            return false;
+        }
+        String email = ((EditText) findViewById(R.id.emailTF)).getText().toString();
+        if (!Varie.isValidEmail(email)) {
+            ((EditText) findViewById(R.id.emailTF)).setError("First name is required!");
+            return false;
+        }
+        if (TextUtils.isEmpty(((EditText) findViewById(R.id.telefonoTF)).getText())) {
+            ((EditText) findViewById(R.id.telefonoTF)).setError("First name is required!");
+            return false;
+        }
+        if (TextUtils.isEmpty(((EditText) findViewById(R.id.dataNascitaTF)).getText())) {
+            ((EditText) findViewById(R.id.dataNascitaTF)).setError("First name is required!");
+            return false;
+        }
+        if (TextUtils.isEmpty(((EditText) findViewById(R.id.enteTF)).getText())) {
+            ((EditText) findViewById(R.id.enteTF)).setError("First name is required!");
+            return false;
+        }
+        return true;
     }
 
     private HashMap<String, String> getPostParamiter(View view) {
@@ -91,34 +120,23 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dettaglio_evento_activity);
+        setTitle(Costanti.titolo);
         //leggi evento
         //salva su oggetto evento
-        evento = (Evento) getIntent().getParcelableExtra(QRCodeAbstractActivity.EXTRA_EVENTO);
+        evento = (Evento) getIntent().getParcelableExtra(QRCodeActivity.EXTRA_EVENTO);
         popolaCampi();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        leggiDaPreference();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        salvaSuPreference();
-    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        leggiDaPreference();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        salvaSuPreference();
     }
 
     @Override
@@ -130,6 +148,7 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
                 finish();
             }
         } catch (JSONException jex) {
+            Toast.makeText(this, "Problema di comunicazione", Toast.LENGTH_SHORT).show();
             jex.printStackTrace();
         }
     }

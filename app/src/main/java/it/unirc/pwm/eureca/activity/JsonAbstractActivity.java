@@ -1,11 +1,11 @@
 package it.unirc.pwm.eureca.activity;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by ignaz on 09/02/2018.
  */
 
-public abstract class JsonAbstractActivity extends Activity {
+public abstract class JsonAbstractActivity extends AppCompatActivity {
     public abstract void jsonResult(String jsonString);
 }

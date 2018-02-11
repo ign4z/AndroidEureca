@@ -16,8 +16,8 @@ import it.unirc.pwm.eureca.util.Costanti;
 import it.unirc.pwm.eureca.util.InternetConnection;
 import it.unirc.pwm.eureca.util.PermissionUtil;
 
-public class QRCodeAbstractActivity extends JsonAbstractActivity {
-	public final static String TAG = "QRCodeAbstractActivity";
+public class QRCodeActivity extends JsonAbstractActivity {
+	public final static String TAG = "QRCodeActivity";
 	public static final String EXTRA_EVENTO = "it.unirc.pwm.eureca.model.Evento";
 	private int idEvento = 1;
 	private Evento evento;
@@ -96,6 +96,7 @@ public class QRCodeAbstractActivity extends JsonAbstractActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.qrcode_activity);
+		setTitle(Costanti.titolo);
 	}
 
 
@@ -115,13 +116,14 @@ public class QRCodeAbstractActivity extends JsonAbstractActivity {
 	public void jsonResult(String jsonString) {
 
 		EventoImpl evnContract=new EventoImpl();
-		evento = evnContract.getEvento(jsonString);
-
-		Intent avviaDettagli = new Intent(this, DettagliEventoActivity.class);
-		Bundle extras = new Bundle();
-		extras.putParcelable(EXTRA_EVENTO, evento);
-		avviaDettagli.putExtras(extras);
-		startActivity(avviaDettagli);
+		if (!jsonString.isEmpty()) {
+			evento = evnContract.getEvento(jsonString);
+			Intent avviaDettagli = new Intent(this, DettagliEventoActivity.class);
+			Bundle extras = new Bundle();
+			extras.putParcelable(EXTRA_EVENTO, evento);
+			avviaDettagli.putExtras(extras);
+			startActivity(avviaDettagli);
+		}
 
 	}
 }

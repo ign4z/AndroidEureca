@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import it.unirc.pwm.eureca.R;
+import it.unirc.pwm.eureca.util.Costanti;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        setTitle(Costanti.titolo);
 
     }
 
@@ -28,6 +30,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 View b = findViewById(R.id.avviaButton);
                 b.setVisibility(View.VISIBLE);
+                View bs = findViewById(R.id.progressBar);
+                bs.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -74,7 +78,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     public void secondaActivity(View view) {
-        Intent intent = new Intent(this, QRCodeAbstractActivity.class);
+        Intent intent = new Intent(this, QRCodeActivity.class);
         startActivity(intent);
     }
 

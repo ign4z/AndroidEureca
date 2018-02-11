@@ -27,7 +27,6 @@ public class AsyncReqGet extends AsyncTask<InternetConnection, Void, String> {
 
 
 	protected void onPreExecute() {
-		// TODO Auto-generated method stub
 		super.onPreExecute();
 		act.get().runOnUiThread(new Runnable()
 		{
@@ -40,23 +39,17 @@ public class AsyncReqGet extends AsyncTask<InternetConnection, Void, String> {
 
 	@Override
 	protected void onPostExecute(String jsonString) {
-		// TODO Auto-generated method stub
 		super.onPostExecute(jsonString);
-		
 		if(act!=null)
 			act.get().jsonResult(jsonString);
 		if(progressDialog!=null)
 			progressDialog.dismiss();
 	}
 
-
-
 	@Override
 	protected String doInBackground(InternetConnection... params) {
-
 		InternetConnection internetConnection=params[0];
 		return internetConnection.getHttpSource(); // get
-
 	}
 
 

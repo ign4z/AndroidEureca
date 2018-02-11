@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import it.unirc.pwm.eureca.R;
+
 public class PermissionUtil {
 
     private static void showExplanation(final Activity aThis, String title, String message, final String permission,
@@ -32,12 +34,12 @@ public class PermissionUtil {
         int permissionCheck = ContextCompat.checkSelfPermission(aThis, Manifest.permission.CAMERA);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(aThis,Manifest.permission.CAMERA)) {
-                showExplanation(aThis,"Permission Needed", "Rationale", Manifest.permission.CAMERA, Costanti.MY_PERMISSIONS_REQUEST_CAMERA);
+                showExplanation(aThis, aThis.getString(R.string.richiesta_permesso), aThis.getString(R.string.permesso_camera), Manifest.permission.CAMERA, Costanti.MY_PERMISSIONS_REQUEST_CAMERA);
             } else {
                 requestPermission(aThis, Manifest.permission.CAMERA, Costanti.MY_PERMISSIONS_REQUEST_CAMERA);
             }
         } else {
-            Toast.makeText(aThis, "Permission (already) Granted!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(aThis, aThis.getString(R.string.permesso_ottenuto), Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;

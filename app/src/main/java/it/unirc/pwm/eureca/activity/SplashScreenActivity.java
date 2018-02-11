@@ -13,7 +13,7 @@ import it.unirc.pwm.eureca.util.Costanti;
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static final String TAG = "SplashScreenActivity";
-    private int progressStatus = 0;
+    private int progressStatus = 0; //progresso falso caricamento
     private Handler handler = new Handler();
 
     @Override
@@ -21,10 +21,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         setTitle(Costanti.titolo);
-
     }
 
     private void rendiVisibile() {
+        //essendo questo metodo chiamato da un Threadn NON UI
+        //devo necessariamente schedularlo per una successiva esecuzione nel thread UI
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -37,34 +38,21 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        //TODO on save salvare il progresso
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        // Start long running operation in a background thread
+        // Simulo caricamento lento
         Runnable r = new Runnable() {
             public void run() {
                 while (progressStatus < 100) {
                     progressStatus += 5;
-                    // Update the progress bar and display the
-                    //current value in the text view
                     handler.post(new Runnable() {
                         public void run() {
                             progressBar.setProgress(progressStatus);
                         }
                     });
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(150);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -77,6 +65,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         t.start();
     }
 
+    //onclick
     public void secondaActivity(View view) {
         Intent intent = new Intent(this, QRCodeActivity.class);
         startActivity(intent);

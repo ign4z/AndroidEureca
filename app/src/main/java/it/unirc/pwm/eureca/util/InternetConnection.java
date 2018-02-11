@@ -20,8 +20,8 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 public class InternetConnection {
-	private static final String TAG="JSON Activity";
 
+	private static final String TAG="JSON Activity";
 	private URL url;
 
 	public InternetConnection(String stringUrl) {
@@ -32,12 +32,10 @@ public class InternetConnection {
         }
     }
 
-	public String getHttpSource()
-	{
+    String getHttpSource() {
         StringBuilder stringBuilder = new StringBuilder();
         InputStream is =null;
 		try {
-
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(15000 /* milliseconds */);
 			// Starts the query

@@ -29,6 +29,7 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
     private String Tag = "DettagliEventoActivity";
     private Evento evento;
 
+    //onclik
     public void partecipa(View view) {
         LinearLayout linearInvisible = findViewById(R.id.linearInvisible);
         linearInvisible.setVisibility(View.VISIBLE);
@@ -38,11 +39,12 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
         date.addTextChangedListener(myTextWatcher);
     }
 
+    //onclick
     public void inviaPartecipazione(View view) {
         if (controllaCampi())
             try {
                 InternetConnection internetConnection = new InternetConnection(Costanti.URLBASE + Costanti.URLPARTECIPA);
-                AsyncReqPost asyncReq = new AsyncReqPost(this, getString(R.string.running), getString(R.string.conser), Costanti.URLBASE + Costanti.URLPARTECIPA, getPostParamiter(view));
+                AsyncReqPost asyncReq = new AsyncReqPost(this, getString(R.string.running), getString(R.string.conser), Costanti.URLBASE + Costanti.URLPARTECIPA, getPostParamiter());
                 asyncReq.execute(internetConnection);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -83,7 +85,7 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
         return true;
     }
 
-    private HashMap<String, String> getPostParamiter(View view) {
+    private HashMap<String, String> getPostParamiter() {
         HashMap<String, String> param = new HashMap<>();
         param.put("id", String.valueOf(evento.getIdEvento()));
         param.put("utente.nome", ((EditText) findViewById(R.id.nomeTF)).getText().toString());
@@ -97,8 +99,6 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
 
 
     private void popolaCampi() {
-
-
         ((TextView) findViewById(R.id.nomeTW)).setText(evento.getNome());
         ((TextView) findViewById(R.id.descrizioneTW)).setText(evento.getDescrizione());
         ((TextView) findViewById(R.id.luogoTW)).setText(evento.getLuogo());
@@ -111,7 +111,7 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
             String url = Costanti.URLBASE + Costanti.URLIMMAGINEDETTAGLIEVENTO + evento.getLocandina();
             System.out.println(url);
             new AsincTaskImageDownloader(img).execute(url);
-            Log.e(Tag, "immagine not nullll scarrica");
+            Log.e(Tag, "immagine scarrrrica");
         }
     }
 
@@ -126,8 +126,6 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
         evento = (Evento) getIntent().getParcelableExtra(QRCodeActivity.EXTRA_EVENTO);
         popolaCampi();
     }
-
-
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -144,11 +142,11 @@ public class DettagliEventoActivity extends JsonAbstractActivity {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             if ((Boolean) jsonObject.get("risultato")) {
-                Toast.makeText(this, "iscrizione ok", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.success), Toast.LENGTH_SHORT).show();
                 finish();
             }
         } catch (JSONException jex) {
-            Toast.makeText(this, "Problema di comunicazione", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.errore_generico), Toast.LENGTH_SHORT).show();
             jex.printStackTrace();
         }
     }

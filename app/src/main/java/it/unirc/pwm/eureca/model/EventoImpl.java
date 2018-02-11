@@ -5,6 +5,8 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import it.unirc.pwm.eureca.util.Varie;
+
 public class EventoImpl implements EventoDao{
     private static final String TAG="JSON Activity";
 
@@ -18,7 +20,7 @@ public class EventoImpl implements EventoDao{
             ev.setDescrizione(eventoJson.getString(EventoContract.EventoObject.descrizione));
             ev.setLocandina(eventoJson.getString(EventoContract.EventoObject.locandina));
             ev.setLuogo(eventoJson.getString(EventoContract.EventoObject.luogo));
-
+            ev.setDataEvento(Varie.stringToDate(eventoJson.getString(EventoContract.EventoObject.dataEvento)));
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage()+e.getCause());
         }

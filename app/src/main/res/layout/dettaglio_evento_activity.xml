@@ -18,34 +18,34 @@
             <ImageView
                 android:id="@+id/imageViewEvento"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="87dp"
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <TextView
                 android:id="@+id/descrizioneTW"
                 android:layout_width="match_parent"
-                android:layout_height="31dp"
+                android:layout_height="30dp"
                 android:hint="@string/descrizione"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/dataTW"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
+                android:layout_height="30dp"
                 android:hint="@string/data"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/luogoTW"
                 android:layout_width="match_parent"
-                android:layout_height="31dp"
+                android:layout_height="30dp"
                 android:hint="@string/luogo"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/nomeTW"
                 android:layout_width="match_parent"
-                android:layout_height="34dp"
+                android:layout_height="30dp"
                 android:hint="@string/nome"
                 android:textAlignment="center" />
 
@@ -53,8 +53,14 @@
                 android:id="@+id/buttonPartecipa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button"
                 android:onClick="partecipa"
                 android:text="@string/partecipa" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/linearInvisible"
@@ -115,6 +121,7 @@
                     android:id="@+id/button4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/button"
                     android:onClick="inviaPartecipazione"
                     android:text="@string/inviapartecipazione" />
             </LinearLayout>

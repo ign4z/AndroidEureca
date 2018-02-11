@@ -19,52 +19,53 @@ import it.unirc.pwm.eureca.util.PermissionUtil;
 public class QRCodeActivity extends JsonAbstractActivity {
 	public final static String TAG = "QRCodeActivity";
 	public static final String EXTRA_EVENTO = "it.unirc.pwm.eureca.model.Evento";
-	private int idEvento = 1;
+	private int idEvento;
 	private Evento evento;
 
+	//avvio action qrcode
 	private void dispatchTakePictureIntent() {
-		/*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-			startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-		}*/
-
 		Intent takeQRCode = new Intent(this,ScannerActivity.class);
-		//takeQRCode.setType(Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
 		startActivityForResult(takeQRCode, Costanti.REQUEST_SCANNER);
-
 	}
 
+	//risultato activity lettura qrcode
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-			super.onActivityResult(requestCode, resultCode, data);
-			switch(requestCode) {
-				case (Costanti.REQUEST_SCANNER) : {
-					if (resultCode == Activity.RESULT_OK) {
-						TextView textView = (TextView) findViewById(R.id.textView);
-						try {
-							String returnValue = data.getStringExtra(String.valueOf(Costanti.KEY_QR_CODE));
-							String nome = returnValue.split("@")[0];
-							idEvento = Integer.parseInt(returnValue.split("@")[1]);
-							textView.setText(nome);
-						} catch (ArrayIndexOutOfBoundsException aex) {
-							Toast.makeText(this, "qrcode non riconosciuto", Toast.LENGTH_LONG).show();
-						}
+		super.onActivityResult(requestCode, resultCode, data);
+		switch(requestCode) {
+			case (Costanti.REQUEST_SCANNER) : {
+				if (resultCode == Activity.RESULT_OK) {
+					TextView textView = (TextView) findViewById(R.id.textView);
+					try {
+						String returnValue = data.getStringExtra(String.valueOf(Costanti.KEY_QR_CODE));
+						String nome = returnValue.split("@")[0];
+						idEvento = Integer.parseInt(returnValue.split("@")[1]);
+						textView.setText(nome);
+
+						View button = findViewById(R.id.button);
+						button.setVisibility(View.VISIBLE);
+
+						View tV = findViewById(R.id.textView);
+						tV.setVisibility(View.VISIBLE);
+
+					} catch (ArrayIndexOutOfBoundsException aex) {
+						Toast.makeText(this, getString(R.string.errore_qrcode), Toast.LENGTH_LONG).show();
 					}
-					break;
 				}
+				break;
+			}
 		}
 	}
 
-
-
 	//onclick
-	public void cattura(View view)
-	{//permesso a runtime
+	public void cattura(View view) {
+		//richiesta permessi a runtime
 		if(PermissionUtil.checkPermissionCamera(this)){
 			dispatchTakePictureIntent();
 		}
 	}
 
+	//risultato richiesta permessi
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
 										   String permissions[], int[] grantResults) {
@@ -73,20 +74,14 @@ public class QRCodeActivity extends JsonAbstractActivity {
 				// If request is cancelled, the result arrays are empty.
 				if (grantResults.length > 0
 						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-					// permission was granted, yay! Do the
-					// contacts-related task you need to do.
+					//permesso ottenuto
 					dispatchTakePictureIntent();
 				} else {
 					return;
-					// permission denied, boo! Disable the
-					// functionality that depends on this permission.
+					// permesso negato
 				}
 				return;
 			}
-
-			// other 'case' lines to check for other
-			// permissions this app might request.
 		}
 	}
 
@@ -108,15 +103,11 @@ public class QRCodeActivity extends JsonAbstractActivity {
 		asyncReq.execute(internetConnection);
 	}
 
-	/**
-	 * callback della richiesta asincrona json classe astratta
-	 * @param jsonString
-	 */
+
 	@Override
 	public void jsonResult(String jsonString) {
-
-		EventoImpl evnContract=new EventoImpl();
-		if (!jsonString.isEmpty()) {
+		if (!jsonString.isEmpty()) { //se la risposta della comunicazione è vuota non faccio nulla
+			EventoImpl evnContract = new EventoImpl();
 			evento = evnContract.getEvento(jsonString);
 			Intent avviaDettagli = new Intent(this, DettagliEventoActivity.class);
 			Bundle extras = new Bundle();

@@ -43,7 +43,6 @@ public class AsincTaskImageDownloader extends AsyncTask<String, Void, Bitmap> {
                     imageView.setImageDrawable(placeholder);
                 }
             }
-
         }
     }
 
